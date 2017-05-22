@@ -10,7 +10,6 @@ import {
 import Day from './Day';
 
 import moment from 'moment';
-import momentLocale from '../../../../node_modules/moment/locale/ru'
 import styles from './styles';
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
