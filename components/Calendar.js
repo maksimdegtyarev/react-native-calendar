@@ -10,6 +10,7 @@ import {
 import Day from './Day';
 
 import moment from 'moment';
+import momentLocale from '../../../../node_modules/moment/locale/ru'
 import styles from './styles';
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
@@ -64,7 +65,7 @@ export default class Calendar extends Component {
     width: DEVICE_WIDTH,
     dayHeadings: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
     eventDates: [],
-    monthNames: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+    monthNames: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Jun',
       'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
     nextButtonText: 'Next',
     prevButtonText: 'Prev',
@@ -73,6 +74,7 @@ export default class Calendar extends Component {
     showEventIndicators: false,
     startDate: moment().format('YYYY-MM-DD'),
     titleFormat: 'MMMM YYYY',
+    today: moment(),
     weekStart: 1,
   };
 
@@ -186,7 +188,7 @@ export default class Calendar extends Component {
     const
       selectedMoment = moment(this.state.selectedMoment),
       weekStart = this.props.weekStart,
-      todayMoment = this.props.today ? moment(this.props.today) : moment(),
+      todayMoment = moment(this.props.today),
       todayIndex = todayMoment.date() - 1,
       argMonthDaysCount = argMoment.daysInMonth(),
       offset = (startOfArgMonthMoment.isoWeekday() - weekStart + 7) % 7,
@@ -264,9 +266,13 @@ export default class Calendar extends Component {
       </View>
     );
   }
+  capitalizeString(str) {
+      return str && str[0].toUpperCase() + str.slice(1)
+  }
 
   renderTopBar() {
     let localizedMonth = this.props.monthNames[this.state.currentMonthMoment.month()];
+
     return this.props.showControls
     ? (
         <View style={[styles.calendarControls, this.props.customStyle.calendarControls]}>
@@ -279,7 +285,7 @@ export default class Calendar extends Component {
             </Text>
           </TouchableOpacity>
           <Text style={[styles.title, this.props.customStyle.title]}>
-            {this.state.currentMonthMoment.format(this.props.titleFormat)}
+            {this.capitalizeString(this.state.currentMonthMoment.locale('ru').format(this.props.titleFormat))}
           </Text>
           <TouchableOpacity
             style={[styles.controlButton, this.props.customStyle.controlButton]}
